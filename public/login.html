@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wealthome Login</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #2179ff;
+      --primary-dark: #0d3166;
+      --white: #fff;
+      --gray: #616366;
+      --light: #f2f5fa;
+      --border: #dadfe5;
+      --radius: 24px;
+    }
+
+    body {
+      font-family: "Montserrat", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f4392, #001d3d);
+      padding: 20px;
+    }
+
+    .login-container {
+      max-width: 1000px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .login-banner {
+      background: url("https://images.unsplash.com/photo-1600585154526-990dced4db0d") center/cover;
+      min-height: 500px;
+      position: relative;
+    }
+
+    .login-box {
+      padding: 50px;
+    }
+
+    .logo { color: var(--primary); font-size: 40px; font-weight: 700; }
+
+    .input-field {
+      width: 100%;
+      height: 50px;
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    button {
+      width: 100%;
+      height: 50px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .login-btn { background: var(--primary); color: white; }
+    .register-btn { background: #28a745; color: white; }
+
+  </style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+  <div class="login-banner"></div>
+
+  <div class="login-box">
+
+    <div class="logo">Wealthome</div>
+
+    <h2>Login</h2>
+
+    <form onsubmit="login(event)">
+
+      <input id="email" class="input-field" type="email" placeholder="Email" required />
+
+      <input id="password" class="input-field" type="password" placeholder="Password" required />
+
+      <button class="login-btn" type="submit">Login</button>
+
+    </form>
+
+    <!-- 🔥 REGISTER BUTTON -->
+    <button class="register-btn" onclick="registerUser()">Create Account</button>
+
+  </div>
+
+</div>
+
+<script>
+/* ---------------- LOGIN ---------------- */
+function login(event) {
+  event.preventDefault();
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  fetch("http://localhost:5000/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message);
+  })
+  .catch(err => console.log(err));
+}
+
+/* ---------------- REGISTER ---------------- */
+function registerUser() {
+  const fullname = prompt("Enter Full Name");
+  const email = prompt("Enter Email");
+  const password = prompt("Enter Password");
+
+  fetch("http://localhost:5000/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ fullname, email, password })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message);
+  })
+  .catch(err => console.log(err));
+}
+</script>
+
+</body>
+</html>
